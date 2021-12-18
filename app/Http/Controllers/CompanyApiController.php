@@ -20,8 +20,9 @@ class CompanyApiController extends Controller
     {
         $com_name = $request->name;
         $email = $request->email_address;
+        $address = $request->address;
         $date = date("Y-m-d H:i:s");
-        $sql = DB::insert('INSERT INTO companies(name,email_address,created_at) VALUES(?,?,?)', [$com_name, $email, $date]);
+        $sql = DB::insert('INSERT INTO companies(name,email_address,address,created_at) VALUES(?,?,?,?)', [$com_name, $email, $address, $date]);
         if ($sql == true) {
             return response()->json(['create' => 'success']);
         }
@@ -30,10 +31,11 @@ class CompanyApiController extends Controller
     {
         $com_name = $request->name;
         $email = $request->email_address;
+        $address = $request->address;
         $date = date("Y-m-d H:i:s");
         $id = $request->id;
 
-        $sql = DB::update('UPDATE companies SET name=?,email_address=?,updated_at=? WHERE id=?', [$com_name, $email, $date, $id]);
+        $sql = DB::update('UPDATE companies SET name=?,email_address=?,address=?,updated_at=? WHERE id=?', [$com_name, $email, $address, $date, $id]);
         if ($sql == true) {
             return response()->json(['update' => 'success']);
         }

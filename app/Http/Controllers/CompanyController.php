@@ -23,9 +23,10 @@ class CompanyController extends Controller
     {
         $com_name = request()->get('com_name');
         $email = request()->get('email');
+        $address = request()->get('address');
         $date = date("Y-m-d H:i:s");
 
-        $sql = DB::insert("INSERT INTO companies (name, email_address,created_at) VALUES (?,?,?)", [$com_name, $email, $date]);
+        $sql = DB::insert("INSERT INTO companies (name, email_address,address,created_at) VALUES (?,?,?,?)", [$com_name, $email, $address, $date]);
         DB::disconnect('company');
         if ($sql == true) {
             return redirect('/company?status=created');
@@ -35,10 +36,11 @@ class CompanyController extends Controller
     {
         $com_name = request()->get('com_name');
         $email = request()->get('email');
+        $address = request()->get('address');
         $date = date("Y-m-d H:i:s");
         $id = request()->get('id');
 
-        $sql = DB::update("UPDATE companies SET name=?, email_address=?,updated_at=? WHERE id=?", [$com_name, $email, $date, $id]);
+        $sql = DB::update("UPDATE companies SET name=?, email_address=?,address=?,updated_at=? WHERE id=?", [$com_name, $email, $address, $date, $id]);
         DB::disconnect('company');
         if ($sql == true) {
             return redirect('/company?status=updated');

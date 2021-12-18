@@ -106,9 +106,20 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                     <label for="company">Company</label>​
 
                     <select class="form-control" name="company" required>
+                        @php
+                        $resp = json_decode($responseBody2);
+                        @endphp
+                        @foreach($resp as $r)
+                        @php
+                        $c_id = $r->id;
+                        $c_name = $r->name;
+                        @endphp
+                        @if($c_id==@$_GET['id'])
                         <option value="{{ @$_GET['id'] }}">
-                            {{ @$_GET['company'] }}
+                            {{ $c_name }}
                         </option>
+                        @endif
+                        @endforeach
                         @foreach (json_decode($responseBody2,true) as $data)
                         @php $company_id = $data['id'];$company_name = $data['name']; @endphp
                         <option value="{{ $company_id }}">
@@ -171,7 +182,19 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                     $updated_at=$array[$i]['updated_at']; @endphp <tr>
                     <td>{{$id}}</td>
                     <td>{{$first_name}} {{ $last_name }}</td>
-                    <td>{{$company }}</td>
+                    <td>
+                        @php
+                        $resp = json_decode($responseBody2);
+                        @endphp
+                        @foreach($resp as $r)
+                        @php
+                        $c_id = $r->id;
+                        $c_name = $r->name;
+                        @endphp
+                        @if($c_id==$company)
+                        {{ $c_name }}
+                        @endif
+                        @endforeach</td>
                     <td>{{$department }}</td>
                     <td>{{$email }}</td>
                     <td>{{ $phone }}</td>

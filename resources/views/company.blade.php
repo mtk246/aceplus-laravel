@@ -56,6 +56,10 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                     <input type="text" class="form-control" name="email" placeholder="Email Address" required />
                 </div>
                 <div class="col-12 col-md-6">
+                    <label for="address">Address</label>
+                    <textarea class="form-control" name="address" placeholder="Address"></textarea>
+                </div>
+                <div class="col-12 col-md-6">
                     <input class="btn btn-primary my-2 text-white" type="submit" value="Create" name="submit" />
                 </div>
             </div>
@@ -78,6 +82,11 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                         value="{{ $email }}" />
                 </div>
                 <div class="col-12 col-md-6">
+                    <label for="address">Address</label>
+                    <textarea class="form-control" name="address"
+                        placeholder="Address">{{ @$_GET['address'] }}</textarea>
+                </div>
+                <div class="col-12 col-md-6">
                     <input class="btn btn-primary my-2 text-white" type="submit" value="Update" name="submit" />
                 </div>
             </div>
@@ -94,6 +103,7 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                     <th scope="col" style="border-top-left-radius: 0.8rem;">No.</th>
                     <th scope="col">Company Name</th>
                     <th scope="col">Email Address</th>
+                    <th scope="col">Address</th>
                     <th scope="col">Create Date</th>
                     <th scope="col">Update Date</th>
                     <th scope="col">Edit</th>
@@ -102,15 +112,16 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
             </thead>
             <tbody id="myTable">
                 @for ($i = 0; $i < count($array); $i++) @php $id=$array[$i]['id']; $name=$array[$i]['name'];
-                    $email=$array[$i]['email_address']; @endphp <tr>
+                    $email=$array[$i]['email_address']; $address=$array[$i]['address'] @endphp <tr>
                     <td>{{$id}}</td>
                     <td>{{$name }}</td>
-                    <td>{{ $array[$i]['email_address'] }}</td>
+                    <td>{{ $email }}</td>
+                    <td>{{ $address }}</td>
                     <td>{{ $array[$i]['created_at'] }}</td>
                     <td>{{ $array[$i]['updated_at'] }}</td>
                     <td>
                         <a class='btn btn-primary text-white' href='/company?id={{$id}}&name={{$name
-                            }}&email={{$email}}'><i class='fas fa-pencil-alt'></i></a>
+                            }}&email={{$email}}&address={{ $address }}'><i class='fas fa-pencil-alt'></i></a>
                     </td>
                     <td>
                         <form action="{{ route('companydelete') }}" method="POST">
@@ -143,29 +154,24 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                     <th scope="col" style="border-top-left-radius: 0.8rem;">No.</th>
                     <th scope="col">Company Name</th>
                     <th scope="col">Email Address</th>
+                    <th scope="col">Address</th>
                     <th scope="col">Create Date</th>
                     <th scope="col" style="border-top-right-radius: 0.8rem;">Update Date</th>
                 </tr>
             </thead>
             <tbody id="myTable">
                 @for ($i = 0; $i < count($array); $i++) @php $id=$array[$i]['id']; $name=$array[$i]['name'];
-                    $email=$array[$i]['email_address']; @endphp <tr>
+                    $email=$array[$i]['email_address'];$address=$array[$i]['address']; @endphp <tr>
                     <td>{{$id}}</td>
                     <td>{{$name }}</td>
-                    <td>{{ $array[$i]['email_address'] }}</td>
+                    <td>{{ $email }}</td>
+                    <td>{{ $address }}</td>
                     <td>{{ $array[$i]['created_at'] }}</td>
                     <td>{{ $array[$i]['updated_at'] }}</td>
                     </tr>
                     @endfor
             </tbody>
         </table>
-        @for ($j = 1; $j <= $total_pages; $j++) <a class='btn btn-secondary p-2 mx-2' href='/company?page={{$j}}'>
-            {{$j}}</a>
-            @endfor
-            <a class="nav nav-link p-2" href="#" id="csv">
-                <i class="fas fa-download fa-2x"></i><br />
-                <span class='text-dark' style="font-size: 0.8rem; font-weight:bold;">Export</span>
-            </a>
     </div>
     @endif
 </div>

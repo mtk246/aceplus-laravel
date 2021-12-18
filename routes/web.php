@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', function () {
@@ -10,11 +11,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Auth::routes();
 Route::get('/company', 'CompanyController@index')->name('company');
-Auth::routes();
 Route::get('/employee', 'EmployeeController@index')->name('employee');
-Auth::routes();
 
 
 Route::post('/companyv1', 'CompanyController@postCompany')->name('companyv1');

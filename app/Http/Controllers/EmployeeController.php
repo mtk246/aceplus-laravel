@@ -50,7 +50,7 @@ class EmployeeController extends Controller
         $date = date("Y-m-d H:i:s");
         $id = request()->get('id');
 
-        $sql = DB::update("UPDATE employees SET first_name=?, last_name=?,company=?,department=?,email=?,phone=?,address=?,updated_at=? WHERE id=?", [$first_name, $last_name, $company, $department, $email, $phone, $address, $date, $id]);
+        $sql = DB::update("UPDATE employees SET first_name=?, last_name=?,company=?,department=?,email=?,phone=?,address=?,updated_at=? WHERE staff_id=?", [$first_name, $last_name, $company, $department, $email, $phone, $address, $date, $id]);
         DB::disconnect('company');
         if ($sql == true) {
             return redirect('/employee?status=updated');
@@ -59,7 +59,7 @@ class EmployeeController extends Controller
     public function deleteEmployee()
     {
         $id = request()->get('id');
-        $sql = DB::delete("DELETE FROM employee WHERE id=?", [$id]);
+        $sql = DB::delete("DELETE FROM employees WHERE staff_id=?", [$id]);
         DB::disconnect('company');
         if ($sql == true) {
             return redirect('/employee?status=deleted');

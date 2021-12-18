@@ -40,6 +40,7 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
 
     </div>
 
+    @if(Auth::user()->role == 0)
     <div class="container-fluid mt-3 p-5 rounded-3" style="background-color: #ececec;">
         <h1 class="display-5 text-primary fw-bolder">Employee Information Form</h1>
 
@@ -105,8 +106,8 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                     <label for="company">Company</label>​
 
                     <select class="form-control" name="company" required>
-                        <option value="{{ $company_id }}">
-                            {{ $company_name }}
+                        <option value="{{ @$_GET['id'] }}">
+                            {{ @$_GET['company'] }}
                         </option>
                         @foreach (json_decode($responseBody2,true) as $data)
                         @php $company_id = $data['id'];$company_name = $data['name']; @endphp
@@ -137,7 +138,7 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                 </div>
                 <div class="col-12 col-md-6">
                     <br />
-                    <input class="btn btn-primary my-2 text-white" type="submit" value="Create" name="submit" />
+                    <input class="btn btn-primary my-2 text-white" type="submit" value="Update" name="submit" />
                 </div>
         </form>
         @endif
@@ -180,11 +181,11 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                     <td>
                         <a class='btn btn-primary text-white'
                             href='/employee?id={{$id}}&first_name={{$first_name
-                            }}&last_name{{ $last_name }}&company{{ $company }}&department={{ $department }}&email={{ $email }}&phone={{ $phone }}&address={{ $address }}'><i
+                            }}&last_name={{ $last_name }}&company={{ $company }}&department={{ $department }}&email={{ $email }}&phone={{ $phone }}&address={{ $address }}'><i
                                 class='fas fa-pencil-alt'></i></a>
                     </td>
                     <td>
-                        <form action="{{ route('companydelete') }}" method="POST">
+                        <form action="{{ route('employeedelete') }}" method="POST">
                             <input type="hidden" name="id" value="{{ $id }}" />
                             <button type="submit" class="btn btn-danger text-white"
                                 onclick="return confirm('Confirm deleting company information?')"><i
@@ -203,6 +204,52 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                 <span class='text-dark' style="font-size: 0.8rem; font-weight:bold;">Export</span>
             </a>
     </div>
+    @else<div class="form-group pull-right mt-5">
+        <input class="form-control" id="myInput" type="text" placeholder="Search Company Details">
+    </div>
+    <div style="overflow: auto;max-width:100%;max-height:600px;padding:0.5rem;">
+        <table id="spreadSheet" class="table table-striped my-4 tableFixHead results p-0">
+            <thead>
+                <tr class="tr-2">
+                    <th scope="col" style="border-top-left-radius: 0.8rem;">No.</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Create Date</th>
+                    <th scope="col" style="border-top-right-radius: 0.8rem;">Update Date</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                @for ($i = 0; $i < count($array); $i++) @php $id=$array[$i]['staff_id'];
+                    $first_name=$array[$i]['first_name'];$last_name=$array[$i]['last_name']; $email=$array[$i]['email'];
+                    $company=$array[$i]['company']; $department=$array[$i]['department']; $phone=$array[$i]['phone'];
+                    $address=$array[$i]['address']; $created_at=$array[$i]['created_at'];
+                    $updated_at=$array[$i]['updated_at']; @endphp <tr>
+                    <td>{{$id}}</td>
+                    <td>{{$first_name}} {{ $last_name }}</td>
+                    <td>{{$company }}</td>
+                    <td>{{$department }}</td>
+                    <td>{{$email }}</td>
+                    <td>{{ $phone }}</td>
+                    <td>{{$address }}</td>
+                    <td>{{ $created_at }}</td>
+                    <td>{{ $updated_at }}</td>
+                    </tr>
+                    @endfor
+            </tbody>
+        </table>
+        @for ($j = 1; $j <= $total_pages; $j++) <a class='btn btn-secondary p-2 mx-2' href='/employee?page={{$j}}'>
+            {{$j}}</a>
+            @endfor
+            <a class="nav nav-link p-2" href="#" id="csv">
+                <i class="fas fa-download fa-2x"></i><br />
+                <span class='text-dark' style="font-size: 0.8rem; font-weight:bold;">Export</span>
+            </a>
+    </div>
+    @endif
 </div>
 @endsection
 
@@ -257,7 +304,7 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
       // Data URI
       csvData = "data:application/csv;charset=utf-8," + encodeURIComponent(csv);
 
-    console.log(csv);
+    // console.log(csv);
 
     if (window.navigator.msSaveBlob) {
       // IE 10+
@@ -278,7 +325,7 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
 
   today = dd + "-" + mm + "-" + yyyy;
 
-  var filename = "company_list_" + today + ".csv";
+  var filename = "employee_list_" + today + ".csv";
 
   // This must be a hyperlink
   $("#csv").on("click", function (event) {

@@ -144,7 +144,8 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
             </a>
     </div>
     @else
-    <div class="form-group pull-right mt-5">
+    <h1 class="display-5 text-primary fw-bolder">Company Information</h1>
+    <div class="form-group pull-right mt-3">
         <input class="form-control" id="myInput" type="text" placeholder="Search Company Details">
     </div>
     <div style="overflow: auto;max-width:100%;max-height:600px;padding:0.5rem;">
@@ -172,6 +173,13 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                     @endfor
             </tbody>
         </table>
+        @for ($j = 1; $j <= $total_pages; $j++) <a class='btn btn-secondary p-2 mx-2' href='/company?page={{$j}}'>
+            {{$j}}</a>
+            @endfor
+            <a class="nav nav-link p-2" href="#" id="csv">
+                <i class="fas fa-download fa-2x"></i><br />
+                <span class='text-dark' style="font-size: 0.8rem; font-weight:bold;">Export</span>
+            </a>
     </div>
     @endif
 </div>

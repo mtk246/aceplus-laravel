@@ -214,7 +214,7 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
                         <form action="{{ route('employeedelete') }}" method="POST">
                             <input type="hidden" name="id" value="{{ $id }}" />
                             <button type="submit" class="btn btn-danger text-white"
-                                onclick="return confirm('Confirm deleting company information?')"><i
+                                onclick="return confirm('Confirm deleting employee information?')"><i
                                     class="fas fa-trash-alt"></i>
                         </form>
                     </td>

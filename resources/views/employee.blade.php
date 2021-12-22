@@ -40,7 +40,7 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
 
     </div>
 
-    @if(Auth::user()->role == 0)
+    @admin
     <div class="container-fluid mt-3 p-5 rounded-3" style="background-color: #ececec;">
         <h1 class="display-5 text-primary fw-bolder">Employee Information Form</h1>
 
@@ -226,7 +226,8 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
             {{$j}}</a>
             @endfor
     </div>
-    @else
+    @endadmin
+    @employee
     <h1 class="display-5 text-primary fw-bolder">Employee Information</h1>
     <a class="nav nav-link p-2 mt-3" href="#" id="csv">
         <i class="fas fa-download fa-2x"></i><br />
@@ -274,7 +275,7 @@ $array = array_splice($jsonarray['qqq'], $offset, $limit);
             @endfor
 
     </div>
-    @endif
+    @endemployee
 </div>
 @endsection
 

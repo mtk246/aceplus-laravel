@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +26,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Blade::if('admin', function () {
+            return Auth::user()->role == 0;
+        });
+        Blade::if('employee', function () {
+            return Auth::user()->role == 1;
+        });
+        // Blade::if('admin', function () {
+        //     return Auth::user()->role && Auth::user()->role == 0;
+        // });
     }
 }
